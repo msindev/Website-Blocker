@@ -2,3 +2,9 @@ facebook.com
 www.facebook.com
 twitter.com
 www.twitter.com
+reddit.com
+www.reddit.com
+linkedin.com
+www.linkedin.com
+youtube.com
+www.youtube.com
