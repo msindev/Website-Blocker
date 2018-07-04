@@ -2,6 +2,7 @@ import time
 from datetime import datetime as dt
 import platform
 import ctypes, sys
+import os
 
 redirect_url = "127.0.0.1"
 
@@ -53,10 +54,17 @@ def web_blocker():
 		time.sleep(5)
 
 def main():
-	if is_admin():
-		web_blocker()
+	if platform.system() == "Windows":
+		if is_admin():
+			web_blocker()
+		else:
+				ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+	elif platform.system() == "Linux":
+		if os.geteuid() != 0:
+			os.execvp("sudo", ["sudo"] + sys.argv)
 	else:
-			ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+		print("Incompatible OS. Exiting Program.")
+		exit(0)
 
 if __name__ == "__main__":
 	main()
