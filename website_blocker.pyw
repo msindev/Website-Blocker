@@ -1,15 +1,7 @@
 import time
 from datetime import datetime as dt
 import platform
-
-if platform.system() == "Windows":
-	hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
-elif platform.system() == "Darwin" or platform.system() == "Linux":
-	hosts_path = r"/etc/hosts"
-else:
-	print("Unsupported OS detected. Exiting the program.")
-	exit(0)
-
+import ctypes, sys
 
 redirect_url = "127.0.0.1"
 
@@ -20,11 +12,28 @@ web_list_file.close()
 starting_hour = 9
 end_hour = 17
 
+def is_admin():
+	try:
+		return ctypes.windll.shell32.IsUserAnAdmin()
+	except:
+		return False
+
+def hosts_path():
+	if platform.system() == "Windows":
+		hosts = r"C:\Windows\System32\drivers\etc\hosts"
+	elif platform.system() == "Darwin" or platform.system() == "Linux":
+		hosts = r"/etc/hosts"
+	else:
+		print("Unsupported OS detected. Exiting the program.")
+		exit(0)
+
+	return hosts
+
 def web_blocker():
 	while True:
 		if dt(dt.now().year, dt.now().month, dt.now().day, starting_hour) < dt.now() < dt(dt.now().year, dt.now().month, dt.now().day, end_hour):
 			print("Working Hours!! Your given websites have been blocked!")
-			file = open(hosts_path, "r+")
+			file = open(hosts_path(), "r+")
 			content = file.read()
 			for website in website_list:
 				if not website in content:
@@ -34,7 +43,7 @@ def web_blocker():
 			file.close()
 		else:
 			print("Non Working Hours!! No website has been blocked!")
-			with open(hosts_path,"r+") as file:
+			with open(hosts_path(),"r+") as file:
 				content = file.readlines()
 				file.seek(0)
 				for line in content:
@@ -43,4 +52,7 @@ def web_blocker():
 					file.truncate()
 		time.sleep(5)
 
-web_blocker()
+if is_admin():
+	web_blocker()
+else:
+		ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
