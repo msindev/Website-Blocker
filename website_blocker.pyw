@@ -1,7 +1,16 @@
 import time
 from datetime import datetime as dt
+import platform
 
-hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+if platform.system() == "Windows":
+	hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+elif platform.system() == "Darwin" or platform.system() == "Linux":
+	hosts_path = r"/etc/hosts"
+else:
+	print("Unsupported OS detected. Exiting the program.")
+	exit(0)
+
+
 redirect_url = "127.0.0.1"
 
 web_list_file = open("website_list.txt","r")
