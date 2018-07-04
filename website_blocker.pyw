@@ -52,7 +52,11 @@ def web_blocker():
 					file.truncate()
 		time.sleep(5)
 
-if is_admin():
-	web_blocker()
-else:
-		ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+def main():
+	if is_admin():
+		web_blocker()
+	else:
+			ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+
+if __name__ == "__main__":
+	main()
