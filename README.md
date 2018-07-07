@@ -6,3 +6,5 @@ To execute this program on a daily basis, you can use Task Scheduler in Windows,
 
 It is a pyw file and not py file, so make sure you use pythonw.exe to run the script in background, which wouldn't show any command prompt or terminal output.
 Use python.exe to see the output on command prompt and terminal.
+
+To edit the websites which have to be blocked, add or delete the website name in the fie website_list.txt

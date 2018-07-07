@@ -16,8 +16,8 @@ website_list = web_list_file.readlines()
 web_list_file.close()
 
 # Hours when the websites will be blocked (24 hours format)
-starting_hour = 9
-end_hour = 17
+STARTING_HOUR = 9
+END_HOUR = 17
 
 #Function to check if user is admin or not
 def is_admin():
@@ -43,7 +43,7 @@ def web_blocker():
 	while True: # Loop runs indefinitely to make sure it blocks and unblocks the websites at correct time
 
 		# Check if current time is between the required hours
-		if dt(dt.now().year, dt.now().month, dt.now().day, starting_hour) < dt.now() < dt(dt.now().year, dt.now().month, dt.now().day, end_hour): 
+		if dt(dt.now().year, dt.now().month, dt.now().day, STARTING_HOUR) < dt.now() < dt(dt.now().year, dt.now().month, dt.now().day, END_HOUR): 
 			print("Working Hours!! Your given websites have been blocked!")
 			file = open(hosts_path(), "r+")
 			content = file.read()
